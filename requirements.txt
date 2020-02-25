@@ -1,0 +1,5 @@
+PyJWT==1.7.1
+Gunicorn==20.0.4
+Flask==1.1.1
+Flask-Cors==3.0.8
+Flask-SQLAlchemy==2.4.1
