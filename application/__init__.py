@@ -6,6 +6,7 @@ from flask_cors import CORS
 
 # Globally accessible libraries
 db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app(test_config=None):
   # create and configure the app
@@ -14,7 +15,7 @@ def create_app(test_config=None):
 
   # Initialize Plugins
   db.init_app(app)
-  migrate = Migrate(app, db)
+  migrate.init_app(app, db)
 
   CORS(app)
 
