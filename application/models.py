@@ -57,9 +57,6 @@ class Contact(db.Model):
     instagram = Column(String)
     facebook = Column(String)
 
-    def __init__(self, name):
-        self.name = name
-
 class RoomType(db.Model):
     __tablename__ = 'room_types'
 
