@@ -13,20 +13,56 @@ class Housing(db.Model):
     self.name = name
     self.description = description
 
-  def insert(self):
-    db.session.add(self)
-    db.session.commit()
-
-  def update(self):
-    db.session.commit()
-
-  def delete(self):
-    db.session.delete(self)
-    db.session.commit()
-
   def format(self):
     return {
       'id': self.id,
       'name': self.name,
       'description': self.description
     }
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
+    def __init__(self, name):
+        self.name = name
+
+class Photo(db.Model):
+    __tablename__ = 'photos'
+
+    id = Column(Integer, primary_key=True)
+    link = Column(String)
+
+    def __init__(self, link):
+        self.link = link
+
+class Locality(db.Model):
+    __tablename__ = 'localities'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
+    def __init__(self, name):
+        self.name = name
+
+class Contact(db.Model):
+    __tablename__ = 'contacts'
+
+    id = Column(Integer, primary_key=True)
+    adress = Column(String)
+    tel_number = Column(String)
+    email = Column(String)
+    instagram = Column(String)
+    facebook = Column(String)
+
+    def __init__(self, name):
+        self.name = name
+
+class RoomType(db.Model):
+    __tablename__ = 'room_types'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    price = Column(Integer)
