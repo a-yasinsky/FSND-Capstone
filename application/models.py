@@ -12,6 +12,7 @@ class Housing(db.Model):
                 nullable=False)
   category_id = db.Column(db.Integer, db.ForeignKey('categories.id'),
                 nullable=False)
+  photos = db.relationship('Photo', backref='housing', lazy=True)
 
   def __init__(self, name, description, locality, category):
     self.name = name
@@ -19,8 +20,12 @@ class Housing(db.Model):
     self.locality_id = locality
     self.category_id = category
 
-  def insert(self):
+  def insert(self, photos):
       db.session.add(self)
+      for link in photos:
+          photo = Photo(link)
+          self.photos.append(photo)
+          db.session.add(photo)
       db.session.commit()
 
   def format(self):
@@ -47,6 +52,7 @@ class Photo(db.Model):
 
     id = Column(Integer, primary_key=True)
     link = Column(String)
+    housing_id = Column(Integer, db.ForeignKey('housing.id'), nullable=False)
 
     def __init__(self, link):
         self.link = link

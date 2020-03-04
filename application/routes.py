@@ -41,10 +41,12 @@ def create_housing():
     new_description = body.get('description', None)
     new_locality_id = body.get('locality', None)
     new_category_id = body.get('category', None)
+    new_photos = body.get('photos', [])
     try:
         housing = models.Housing(new_name, new_description,
                                 new_locality_id, new_category_id)
-        housing.insert()
+
+        housing.insert(photos=new_photos)
 
         return jsonify({
             'success': True,
