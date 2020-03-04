@@ -13,6 +13,7 @@ class Housing(db.Model):
   category_id = db.Column(db.Integer, db.ForeignKey('categories.id'),
                 nullable=False)
   photos = db.relationship('Photo', backref='housing', lazy=True)
+  room_types = db.relationship('RoomType', backref='housing', lazy=True)
 
   def __init__(self, name, description, locality, category):
     self.name = name
@@ -20,12 +21,19 @@ class Housing(db.Model):
     self.locality_id = locality
     self.category_id = category
 
-  def insert(self, photos):
+  def insert(self, photos, room_types):
       db.session.add(self)
+
       for link in photos:
           photo = Photo(link)
           self.photos.append(photo)
           db.session.add(photo)
+
+      for room_type in room_types:
+          r_type = RoomType(room_type['name'], room_type['price'])
+          self.room_types.append(r_type)
+          db.session.add(r_type)
+
       db.session.commit()
 
   def format(self):
@@ -34,7 +42,9 @@ class Housing(db.Model):
       'name': self.name,
       'description': self.description,
       'locality': self.locality.name,
-      'category': self.category.name
+      'category': self.category.name,
+      'photos': [photo.link for photo in self.photos],
+      'room_types': [r_t.name for r_t in self.room_types]
     }
 
 class Category(db.Model):
@@ -83,3 +93,8 @@ class RoomType(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     price = Column(Integer)
+    housing_id = Column(Integer, db.ForeignKey('housing.id'), nullable=False)
+
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
