@@ -8,16 +8,28 @@ class Housing(db.Model):
   id = Column(Integer, primary_key=True)
   name = Column(String)
   description = Column(String)
+  locality_id = db.Column(db.Integer, db.ForeignKey('localities.id'),
+                nullable=False)
+  category_id = db.Column(db.Integer, db.ForeignKey('categories.id'),
+                nullable=False)
 
-  def __init__(self, name, description):
+  def __init__(self, name, description, locality, category):
     self.name = name
     self.description = description
+    self.locality_id = locality
+    self.category_id = category
+
+  def insert(self):
+      db.session.add(self)
+      db.session.commit()
 
   def format(self):
     return {
       'id': self.id,
       'name': self.name,
-      'description': self.description
+      'description': self.description,
+      'locality': self.locality.name,
+      'category': self.category.name
     }
 
 class Category(db.Model):
@@ -25,6 +37,7 @@ class Category(db.Model):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    housing = db.relationship('Housing', backref='category', lazy=True)
 
     def __init__(self, name):
         self.name = name
@@ -43,6 +56,7 @@ class Locality(db.Model):
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    housing = db.relationship('Housing', backref='locality', lazy=True)
 
     def __init__(self, name):
         self.name = name
