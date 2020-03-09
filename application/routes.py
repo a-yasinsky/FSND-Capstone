@@ -10,14 +10,22 @@ def health():
 @app.route('/localities', methods=['GET'])
 def retrieve_localities():
     selection = models.Locality.query.order_by(models.Locality.name).all()
-    if len(selection) == 0:
-        abort(404)
-
     localities = {loc.id: loc.name for loc in selection}
     return jsonify({
         'success': True,
         'localities': localities,
-        'total_categories': len(selection)
+        'total_localities': len(selection)
+        })
+
+@app.route('/localities/<int:locality_id>/housing', methods=['GET'])
+def retrieve_housing_by_locality(locality_id):
+    locality = models.Locality.query.get_or_404(locality_id)
+    return jsonify({
+        'success': True,
+        'locality_id': locality_id,
+        'locality_name': locality.name,
+        'housing': [housing.format() for housing in locality.housing],
+        'total_housing': len(locality.housing)
         })
 
 @app.route('/housing', methods=['GET'])
