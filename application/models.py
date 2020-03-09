@@ -14,6 +14,7 @@ class Housing(db.Model):
                 nullable=False)
   photos = db.relationship('Photo', backref='housing', lazy=True)
   room_types = db.relationship('RoomType', backref='housing', lazy=True)
+  contacts = db.relationship('Contact', backref='housing', lazy=True, uselist=False)
 
   def __init__(self, name, description, locality, category):
     self.name = name
@@ -21,7 +22,7 @@ class Housing(db.Model):
     self.locality_id = locality
     self.category_id = category
 
-  def insert(self, photos, room_types):
+  def insert(self, photos, room_types, contacts):
       db.session.add(self)
 
       for link in photos:
@@ -34,6 +35,10 @@ class Housing(db.Model):
           self.room_types.append(r_type)
           db.session.add(r_type)
 
+      contacts_ins = Contact(**contacts)
+      self.contacts = contacts_ins
+      db.session.add(contacts_ins)
+
       db.session.commit()
 
   def format(self):
@@ -44,7 +49,8 @@ class Housing(db.Model):
       'locality': self.locality.name,
       'category': self.category.name,
       'photos': [photo.link for photo in self.photos],
-      'room_types': [r_t.name for r_t in self.room_types]
+      'room_types': [r_t.name for r_t in self.room_types],
+      'contacts': self.contacts.format() if self.contacts else None
     }
 
 class Category(db.Model):
@@ -81,11 +87,21 @@ class Contact(db.Model):
     __tablename__ = 'contacts'
 
     id = Column(Integer, primary_key=True)
+    housing_id = Column(Integer, db.ForeignKey('housing.id'), nullable=False)
     adress = Column(String)
     tel_number = Column(String)
     email = Column(String)
     instagram = Column(String)
     facebook = Column(String)
+
+    def format(self):
+        return {
+            'adress': self.adress,
+            'tel_number': self.tel_number,
+            'email': self.email,
+            'instagram': self.instagram,
+            'facebook': self.facebook
+        }
 
 class RoomType(db.Model):
     __tablename__ = 'room_types'

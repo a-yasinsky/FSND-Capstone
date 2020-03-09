@@ -29,7 +29,7 @@ def retrieve_housing():
     housing = {house.id: house.format() for house in selection}
     return jsonify({
         'success': True,
-        'localities': housing,
+        'housing': housing,
         'total_categories': len(selection)
         })
 
@@ -43,11 +43,13 @@ def create_housing():
     new_category_id = body.get('category', None)
     new_photos = body.get('photos', [])
     new_room_types = body.get('room_types', [])
+    new_contacts = body.get('contacts', {})
     try:
         housing = models.Housing(new_name, new_description,
                                 new_locality_id, new_category_id)
 
-        housing.insert(photos=new_photos, room_types=new_room_types)
+        housing.insert(photos=new_photos, room_types=new_room_types,
+                        contacts=new_contacts)
 
         return jsonify({
             'success': True,
