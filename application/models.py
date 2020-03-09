@@ -12,9 +12,19 @@ class Housing(db.Model):
                 nullable=False)
   category_id = db.Column(db.Integer, db.ForeignKey('categories.id'),
                 nullable=False)
-  photos = db.relationship('Photo', backref='housing', lazy=True)
-  room_types = db.relationship('RoomType', backref='housing', lazy=True)
-  contacts = db.relationship('Contact', backref='housing', lazy=True, uselist=False)
+  photos = db.relationship('Photo',
+                            backref='housing',
+                            cascade = "all, delete, delete-orphan",
+                            lazy=True)
+  room_types = db.relationship('RoomType',
+                                backref='housing',
+                                cascade = "all, delete, delete-orphan",
+                                lazy=True)
+  contacts = db.relationship('Contact',
+                            backref='housing',
+                            lazy=True,
+                            uselist=False,
+                            cascade = "all, delete, delete-orphan")
 
   def __init__(self, name, description, locality, category):
     self.name = name
@@ -39,6 +49,10 @@ class Housing(db.Model):
       self.contacts = contacts_ins
       db.session.add(contacts_ins)
 
+      db.session.commit()
+
+  def delete(self):
+      db.session.delete(self)
       db.session.commit()
 
   def format(self):

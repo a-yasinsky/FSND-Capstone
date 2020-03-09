@@ -59,3 +59,26 @@ def create_housing():
     except:
         print(sys.exc_info())
         abort(422)
+
+@app.route('/housing/<int:housing_id>', methods=['GET'])
+def retrieve_housing_info(housing_id):
+    housing = models.Housing.query.get_or_404(housing_id)
+    return jsonify({
+        'success': True,
+        'housing': [housing.format()]
+        })
+
+@app.route('/housing/<int:housing_id>', methods=['DELETE'])
+def delete_housing(housing_id):
+    try:
+        housing = models.Housing.query.get_or_404(housing_id)
+        housing.delete()
+
+        return jsonify({
+            'success': True,
+            'housing': housing_id
+            })
+
+    except:
+        print(sys.exc_info())
+        abort(422)
