@@ -99,6 +99,12 @@ class Housing(db.Model):
   def update(self, photos, room_types, contacts):
       self.update_photos(photos)
       self.update_room_types(room_types)
+      if self.contacts:
+          self.contacts.query.update(contacts)
+      else:
+          contacts_ins = Contact(**contacts)
+          self.contacts = contacts_ins
+          db.session.add(contacts_ins)
       db.session.commit()
 
   def delete(self):
