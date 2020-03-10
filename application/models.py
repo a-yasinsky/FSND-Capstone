@@ -56,16 +56,17 @@ class Housing(db.Model):
       detect_append = []
       for photo in self.photos:
           if photo.link not in photos:
-              to_remove.append(photo.link)
+              to_remove.append(photo)
           else:
               detect_append.append(photo.link)
       for photo in photos:
           if photo not in detect_append:
-              new_photo = Photo(link)
-              self.photo.append(new_photo)
+              new_photo = Photo(photo)
+              self.photos.append(new_photo)
               db.session.add(new_photo)
 
-      self.photos.remove(to_remove)
+      for removable_link in to_remove:
+          self.photos.remove(removable_link)
       db.session.commit()
 
   def delete(self):

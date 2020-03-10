@@ -87,8 +87,8 @@ def update_housing(housing_id):
     new_contacts = body.get('contacts', {})
     try:
         housing = models.Housing.query.get_or_404(housing_id)
-        if new_description;
-            housing.description = description
+        if new_description:
+            housing.description = new_description
         if new_name:
             housing.name = new_name
 
@@ -101,7 +101,7 @@ def update_housing(housing_id):
             })
 
     except:
-        # print(sys.exc_info())
+        print(sys.exc_info())
         abort(422)
 
 @app.route('/housing/<int:housing_id>', methods=['DELETE'])
