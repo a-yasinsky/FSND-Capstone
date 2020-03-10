@@ -51,7 +51,7 @@ class Housing(db.Model):
 
       db.session.commit()
 
-  def update(self, photos, room_types, contacts):
+  def update_photos(self, photos):
       to_remove = []
       detect_append = []
       for photo in self.photos:
@@ -67,6 +67,38 @@ class Housing(db.Model):
 
       for removable_link in to_remove:
           self.photos.remove(removable_link)
+
+  def create_mapper(self, room_types):
+      return {rt['id']: rt for rt in room_types if 'id' in rt}
+
+  def update_room_types(self, room_types):
+      room_id_mapper = self.create_mapper(room_types)
+      to_remove = []
+      to_append  = []
+      for room_type in self.room_types:
+          if room_type.id in room_id_mapper:
+              new_room_type = room_id_mapper[room_type.id]
+              if "name" in new_room_type:
+                room_type.name = new_room_type['name']
+              if "price" in new_room_type:
+                room_type.price = new_room_type['price']
+              to_append.append(room_type.id)
+          else:
+              to_remove.append(room_type)
+
+      for removable_link in to_remove:
+          self.room_types.remove(removable_link)
+
+      for room_type in room_types:
+          if 'id' not in room_type and 'name' in room_type and 'price' in room_type:
+              new_room_type = RoomType(room_type['name'], room_type['price'])
+              self.room_types.append(new_room_type)
+              db.session.add(new_room_type)
+
+
+  def update(self, photos, room_types, contacts):
+      self.update_photos(photos)
+      self.update_room_types(room_types)
       db.session.commit()
 
   def delete(self):
@@ -81,7 +113,7 @@ class Housing(db.Model):
       'locality': self.locality.name,
       'category': self.category.name,
       'photos': [photo.link for photo in self.photos],
-      'room_types': [r_t.name for r_t in self.room_types],
+      'room_types': [r_t.format() for r_t in self.room_types],
       'contacts': self.contacts.format() if self.contacts else None
     }
 
@@ -146,3 +178,10 @@ class RoomType(db.Model):
     def __init__(self, name, price):
         self.name = name
         self.price = price
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price': self.price
+        }
