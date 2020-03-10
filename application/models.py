@@ -111,6 +111,14 @@ class Housing(db.Model):
       db.session.delete(self)
       db.session.commit()
 
+  @classmethod
+  def getSearchResults(self, search_term = ''):
+      return Housing.query.filter(
+        db.func.concat(Housing.name, ' ', Housing.description).ilike(
+          '%' + search_term + '%'
+        )
+      ).all()
+
   def format(self):
     return {
       'id': self.id,

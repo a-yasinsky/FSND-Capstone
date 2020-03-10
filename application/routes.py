@@ -76,6 +76,18 @@ def retrieve_housing_info(housing_id):
         'housing': housing.format()
         })
 
+@app.route('/housing/search', methods=['GET'])
+def search_housing():
+    search_term = request.args.get('q')
+    selection = models.Housing.getSearchResults(search_term)
+
+    housing = {house.id: house.format() for house in selection}
+    return jsonify({
+        'success': True,
+        'housing': housing,
+        'total_housing': len(selection)
+        })
+
 @app.route('/housing/<int:housing_id>', methods=['PATCH'])
 def update_housing(housing_id):
     body = request.get_json()
