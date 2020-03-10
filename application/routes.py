@@ -61,7 +61,7 @@ def create_housing():
 
         return jsonify({
             'success': True,
-            'housing': [housing.format()]
+            'housing': housing.format()
             })
 
     except:
@@ -73,8 +73,36 @@ def retrieve_housing_info(housing_id):
     housing = models.Housing.query.get_or_404(housing_id)
     return jsonify({
         'success': True,
-        'housing': [housing.format()]
+        'housing': housing.format()
         })
+
+@app.route('/housing/<int:housing_id>', methods=['PATCH'])
+def update_housing(housing_id):
+    body = request.get_json()
+
+    new_name = body.get('name', None)
+    new_description = body.get('description', None)
+    new_photos = body.get('photos', [])
+    new_room_types = body.get('room_types', [])
+    new_contacts = body.get('contacts', {})
+    try:
+        housing = models.Housing.query.get_or_404(housing_id)
+        if new_description;
+            housing.description = description
+        if new_name:
+            housing.name = new_name
+
+        housing.update(photos=new_photos, room_types=new_room_types,
+                        contacts=new_contacts)
+
+        return jsonify({
+            'success': True,
+            'housing': housing.format()
+            })
+
+    except:
+        # print(sys.exc_info())
+        abort(422)
 
 @app.route('/housing/<int:housing_id>', methods=['DELETE'])
 def delete_housing(housing_id):

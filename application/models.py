@@ -51,6 +51,23 @@ class Housing(db.Model):
 
       db.session.commit()
 
+  def update(self, photos, room_types, contacts):
+      to_remove = []
+      detect_append = []
+      for photo in self.photos:
+          if photo.link not in photos:
+              to_remove.append(photo.link)
+          else:
+              detect_append.append(photo.link)
+      for photo in photos:
+          if photo not in detect_append:
+              new_photo = Photo(link)
+              self.photo.append(new_photo)
+              db.session.add(new_photo)
+
+      self.photos.remove(to_remove)
+      db.session.commit()
+
   def delete(self):
       db.session.delete(self)
       db.session.commit()
