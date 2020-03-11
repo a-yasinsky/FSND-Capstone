@@ -130,3 +130,35 @@ def delete_housing(housing_id):
     except:
         print(sys.exc_info())
         abort(422)
+
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+                    "success": False,
+                    "erorr": 404,
+                    "message": "resource not found"
+                    }), 404
+
+@app.errorhandler(422)
+def not_found(error):
+    return jsonify({
+                    "success": False,
+                    "erorr": 422,
+                    "message": "unprocessable entity"
+                    }), 422
+
+@app.errorhandler(400)
+def not_found(error):
+    return jsonify({
+                    "success": False,
+                    "erorr": 400,
+                    "message": "bad request"
+                    }), 400
+
+@app.errorhandler(500)
+def not_found(error):
+    return jsonify({
+                    "success": False,
+                    "erorr": 500,
+                    "message": "internal server error"
+                    }), 500
