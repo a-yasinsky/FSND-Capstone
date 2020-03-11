@@ -1,7 +1,9 @@
 import sys
 from flask import current_app as app
 from flask import jsonify, abort, request
+
 from . import models
+from .auth.auth import AuthError, requires_auth
 
 @app.route('/', methods=['POST', 'GET'])
 def health():
@@ -42,7 +44,8 @@ def retrieve_housing():
         })
 
 @app.route('/housing', methods=['POST'])
-def create_housing():
+@requires_auth('post:housing')
+def create_housing(payload):
     body = request.get_json()
 
     new_name = body.get('name', None)
@@ -89,7 +92,8 @@ def search_housing():
         })
 
 @app.route('/housing/<int:housing_id>', methods=['PATCH'])
-def update_housing(housing_id):
+@requires_auth('patch:housing')
+def update_housing(payload, housing_id):
     body = request.get_json()
 
     new_name = body.get('name', None)
@@ -117,7 +121,8 @@ def update_housing(housing_id):
         abort(422)
 
 @app.route('/housing/<int:housing_id>', methods=['DELETE'])
-def delete_housing(housing_id):
+@requires_auth('delete:housing')
+def delete_housing(payload, housing_id):
     try:
         housing = models.Housing.query.get_or_404(housing_id)
         housing.delete()
@@ -162,3 +167,9 @@ def not_found(error):
                     "erorr": 500,
                     "message": "internal server error"
                     }), 500
+
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response
