@@ -3,6 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+from config import *
 
 # Globally accessible libraries
 db = SQLAlchemy()
@@ -11,7 +12,17 @@ migrate = Migrate()
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
-  app.config.from_object('config.Config')
+
+  env = os.environ.get('__ENV__', '')
+
+  if env == 'production':
+      config = ProductionConfig()
+  elif env == 'testing':
+      config = TestingConfig()
+  else:
+      config = DevelopmentConfig()
+
+  app.config.from_object(config)
 
   # Initialize Plugins
   db.init_app(app)
