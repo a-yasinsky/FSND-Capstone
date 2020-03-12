@@ -14,4 +14,5 @@ class DevelopmentConfig(Config):
     DEBUG = True
 
 class TestingConfig(Config):
+    SQLALCHEMY_DATABASE_URI = 'postgresql:///housing_test'
     TESTING = True
