@@ -55,6 +55,23 @@ class HousingTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data, 'Healthy')
 
+    def test_get_localities(self):
+        res = self.client.get('/localities')
+        data = json.loads(res.data.decode('utf-8'))
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['localities'])
+
+    def test_get_housing_by_locality(self):
+        res = self.client.get('/localities/1/housing')
+        data = json.loads(res.data.decode('utf-8'))
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['total_housing'])
+        self.assertTrue(len(data['housing']))
+
     def test_401_unauth_housing_create(self):
         res = self.client.post('/housing',
                             content_type='application/json'
