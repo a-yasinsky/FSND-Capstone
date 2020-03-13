@@ -40,7 +40,7 @@ def retrieve_housing():
     return jsonify({
         'success': True,
         'housing': housing,
-        'total_categories': len(selection)
+        'total_housing': len(selection)
         })
 
 @app.route('/housing', methods=['POST'])
@@ -91,7 +91,7 @@ def search_housing():
         'total_housing': len(selection)
         })
 
-@app.route('/housing/<int:housing_id>', methods=['PATCH'])
+@app.route('/housing/<int:housing_id>', methods=['PUT'])
 @requires_auth('patch:housing')
 def update_housing(payload, housing_id):
     body = request.get_json()
@@ -123,10 +123,9 @@ def update_housing(payload, housing_id):
 @app.route('/housing/<int:housing_id>', methods=['DELETE'])
 @requires_auth('delete:housing')
 def delete_housing(payload, housing_id):
+    housing = models.Housing.query.get_or_404(housing_id)
     try:
-        housing = models.Housing.query.get_or_404(housing_id)
         housing.delete()
-
         return jsonify({
             'success': True,
             'housing': housing_id
@@ -145,7 +144,7 @@ def not_found(error):
                     }), 404
 
 @app.errorhandler(422)
-def not_found(error):
+def unprocessable(error):
     return jsonify({
                     "success": False,
                     "erorr": 422,
@@ -153,7 +152,7 @@ def not_found(error):
                     }), 422
 
 @app.errorhandler(400)
-def not_found(error):
+def bad_request(error):
     return jsonify({
                     "success": False,
                     "erorr": 400,
@@ -161,7 +160,7 @@ def not_found(error):
                     }), 400
 
 @app.errorhandler(500)
-def not_found(error):
+def internal_error(error):
     return jsonify({
                     "success": False,
                     "erorr": 500,
