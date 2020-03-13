@@ -132,7 +132,7 @@ class HousingTestCase(unittest.TestCase):
         self.assertTrue(len(data['housing']))
 
     def test_401_unauth_housing_update(self):
-        res = self.client.put('/housing/{}'.format(housing_id),
+        res = self.client.patch('/housing/{}'.format(housing_id),
                             content_type='application/json'
                             )
         data = json.loads(res.data.decode('utf-8'))
@@ -160,7 +160,7 @@ class HousingTestCase(unittest.TestCase):
 	               }
             }
 
-        res = self.client.put('/housing/{}'.format(housing_id),
+        res = self.client.patch('/housing/{}'.format(housing_id),
                             data=json.dumps(update_housing),
                             content_type='application/json',
                             headers=auth_header_manager

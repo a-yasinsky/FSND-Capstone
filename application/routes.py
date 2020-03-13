@@ -91,7 +91,7 @@ def search_housing():
         'total_housing': len(selection)
         })
 
-@app.route('/housing/<int:housing_id>', methods=['PUT'])
+@app.route('/housing/<int:housing_id>', methods=['PATCH'])
 @requires_auth('patch:housing')
 def update_housing(payload, housing_id):
     body = request.get_json()
