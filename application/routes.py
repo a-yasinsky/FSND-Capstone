@@ -12,7 +12,7 @@ def health():
 @app.route('/localities', methods=['GET'])
 def retrieve_localities():
     selection = models.Locality.query.order_by(models.Locality.name).all()
-    localities = {loc.id: loc.name for loc in selection}
+    localities = [loc.format() for loc in selection]
     return jsonify({
         'success': True,
         'localities': localities,
