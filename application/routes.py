@@ -10,6 +10,7 @@ def health():
     return jsonify("Healthy")
 
 @app.route('/localities', methods=['GET'])
+@requires_auth('read:housing')
 def retrieve_localities():
     selection = models.Locality.query.order_by(models.Locality.name).all()
     localities = [loc.format() for loc in selection]
@@ -20,6 +21,7 @@ def retrieve_localities():
         })
 
 @app.route('/localities/<int:locality_id>/housing', methods=['GET'])
+@requires_auth('read:housing')
 def retrieve_housing_by_locality(locality_id):
     locality = models.Locality.query.get_or_404(locality_id)
     return jsonify({
@@ -31,6 +33,7 @@ def retrieve_housing_by_locality(locality_id):
         })
 
 @app.route('/housing', methods=['GET'])
+@requires_auth('read:housing')
 def retrieve_housing():
     selection = models.Housing.query.all()
     if len(selection) == 0:
@@ -80,6 +83,7 @@ def retrieve_housing_info(housing_id):
         })
 
 @app.route('/housing/search', methods=['GET'])
+@requires_auth('read:housing')
 def search_housing():
     search_term = request.args.get('q')
     selection = models.Housing.getSearchResults(search_term)

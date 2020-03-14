@@ -16,7 +16,8 @@ def create_app(test_config=None):
   env = os.environ.get('__ENV__', '')
 
   if env == 'production':
-      config = ProductionConfig()
+      database_url = os.environ.get('DATABASE_URL', '')
+      config = ProductionConfig(database_url)
   elif env == 'testing':
       config = TestingConfig()
   else:
