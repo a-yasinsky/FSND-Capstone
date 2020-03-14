@@ -133,7 +133,7 @@ def delete_housing(payload, housing_id):
         housing.delete()
         return jsonify({
             'success': True,
-            'housing': housing_id
+            'housing_id': housing_id
             })
 
     except:

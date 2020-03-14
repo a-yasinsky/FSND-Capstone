@@ -78,3 +78,196 @@ API requires authentication. There are 3 available roles:
 - Fetches an array of localities
 - Request Arguments: None
 - Returns: An object with array of localities objects, total localities length.
+```
+{
+    "localities": [
+        {
+            "id": 1,
+            "name": "London"
+        },
+        {
+            "id": 2,
+            "name": "New York"
+        }
+    ],
+    "success": true,
+    "total_localities": 2
+}
+```
+### GET '/localities/{locality_id}/housing'
+- Fetches an array of housing based on locality
+- Request Arguments: locality ID
+- Returns: An object with array of housing objects, total housing length,
+        requested locality id, locality name
+```
+{
+    "housing": [
+        {
+
+            "id": 2,
+            "locality": "London",
+            ...
+        }
+        ...
+    ],
+    "locality_id": 1,
+    "locality_name": "London",
+    "success": true,
+    "total_housing": 1
+}
+```
+### GET '/housing'
+- Fetches an array of housing
+- Request Arguments: None
+- Returns: An object with object of housing objects in format 'id': housing,
+      total housing length
+```
+{
+  {
+  "housing": {
+      "2": {
+          "category": "Guest house",
+          "id": 2,
+          "name": "test hotel with contacts",
+          ...
+      }
+  },
+  "success": true,
+  "total_housing": 1
+  }
+}
+```
+### POST '/housing'
+- Creates new housing using provided housing object
+- Request Arguments: housing object including:
+            name, description, locality_id, cathegory_id,
+            photos, room_types, contacts
+- Returns: created housing object
+```
+{
+    "housing": {
+        "category": "Guest house",
+        "contacts": {
+            "adress": "street line 1",
+            "email": "test@test.kg",
+            "facebook": "http://facebook.com/somehotel",
+            "instagram": "@somehotel",
+            "tel_number": "123456"
+        },
+        "description": "test description 2",
+        "id": 3,
+        "locality": "London",
+        "name": "test 2",
+        "photos": [
+            "https://placeimg.com/640/480/any",
+            "https://placeimg.com/640/480/any"
+        ],
+        "room_types": [
+            {
+                "id": 7,
+                "name": "Single",
+                "price": 100
+            },
+            {
+                "id": 8,
+                "name": "Double",
+                "price": 200
+            }
+        ]
+    },
+    "success": true
+}
+```
+### GET '/housing/{housing_id}'
+- Fetches housing object if ID exists
+- Request Arguments: housing ID
+- Returns: A housing object
+```
+{
+    "housing": {
+        "category": "Guest house",
+        "contacts": {
+            "adress": "street line 1",
+            "email": "test@test.kg",
+            "facebook": "http://facebook.com/somehotel",
+            "instagram": "@somehotel",
+            "tel_number": "123456"
+        },
+        "description": "test description 2",
+        "id": 3,
+        "locality": "London",
+        "name": "test 2",
+        "photos": [
+            "https://placeimg.com/640/480/any",
+            "https://placeimg.com/640/480/any"
+        ],
+        "room_types": [
+            {
+                "id": 7,
+                "name": "Single",
+                "price": 100
+            },
+            {
+                "id": 8,
+                "name": "Double",
+                "price": 200
+            }
+        ]
+    },
+    "success": true
+}
+```
+### GET '/housing/search'
+- Fetches an array of housing for whom the search term is a substring
+  of the housing name or description
+- Request Arguments: q - query term
+- Returns: An object with object of housing objects in format 'id': housing,
+      total housing length
+```
+{
+    "housing": {
+        "2": {
+            "category": "Guest house",
+            "name": "test hotel with contacts",
+            ...
+        }
+    },
+    "success": true,
+    "total_housing": 1
+}
+```
+### PATCH '/housing/{housing_id}'
+- Update housing using provided housing object
+- Request Arguments: housing object including:
+            name, description, locality_id, cathegory_id,
+            photos, room_types, contacts
+- Returns: updated housing object
+```
+{
+    "housing": {
+        "description": "test description 2",
+        "id": 3,
+        "locality": "London",
+        "name": "test 2",
+        ...
+    },
+    "success": true
+}
+```
+### DELETE '/housing/{housing_id}'
+ - Deletes the housing of the given ID if it exists
+ - Request Arguments: housing ID
+```
+ {
+     'success': true,
+     'housing_id': 3
+ }
+ ```
+
+## Testing
+To run the tests, run
+```
+createdb housing_test
+export __ENV__=testing
+python test_app.py
+```

@@ -1,0 +1,851 @@
+{
+	"info": {
+		"_postman_id": "66246e38-378e-4f5c-92a6-e69937e1e8fa",
+		"name": "FSND-Capstone-Heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "viewer",
+			"item": [
+				{
+					"name": "healthy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1b80c55-14be-481e-84dc-afefee34d2dd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is Healthy\", function () {",
+									"     pm.expect(pm.response.json()).to.equal(\"Healthy\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/localities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9aeedbc-e60b-4e1c-9654-a5adb06126cc",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"response contains localities\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.localities).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/localities",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"localities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9732b2f-1e18-44ec-b6aa-be873a5f81e6",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "56d262fe-c5e2-4709-b039-54d79929e8c7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test hotel with contacts\",\n\t\"description\": \"test description 5\",\n\t\"locality\": \"1\",\n\t\"category\": \"1\",\n\t\"photos\": [\"https://placeimg.com/640/480/any\", \"https://placeimg.com/640/480/any\"],\n\t\"room_types\":[\n\t\t{\n\t\t\t\"name\":\"Single\",\n\t\t\t\"price\": 100\n\t\t},{\n\t\t\t\"name\": \"Double\",\n\t\t\t\"price\": 200\n\t\t}],\n\t\"contacts\":{\n\t\t\"adress\": \"street line 1\",\n\t\t\"tel_number\": \"123456\",\n\t\t\"email\": \"test@test.kg\",\n\t\t\"instagram\": \"@somehotel\",\n\t\t\"facebook\": \"http://facebook.com/somehotel\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d10c2d0-667a-40e1-9ab2-49402a8d26bb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"housings obj exists\", function () {",
+									"    pm.response.to.have.jsonBody(\"housing\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/localities/1/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2845fa83-7f42-4b4f-8c1f-68abc523890a",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"housings obj exists\", function () {",
+									"    pm.response.to.have.jsonBody(\"housing\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/localities/1/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"localities",
+								"1",
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4f825529-202c-43cb-9864-db39e4c01e52",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"housings obj exists\", function () {",
+									"    pm.response.to.have.jsonBody(\"housing\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing/1 Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4f825529-202c-43cb-9864-db39e4c01e52",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1000",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/hoousing/search?q=hotel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f9121b29-8c8a-4278-9b57-02cc6b4cea8e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"housings obj exists\", function () {",
+									"    pm.response.to.have.jsonBody(\"housing\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/search?q=hotel",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "hotel"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2817866a-6e0c-470c-b793-558e367f1829",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"description\": \"updated description\"}"
+						},
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/housing/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddd21215-e92d-47d9-a8c3-0e58a90a66a6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2YzViN2EwODQ1NzEwYzkyMjA1OTg3IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2Mzc2OSwiZXhwIjoxNTg0MjUwMTY5LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsicmVhZDpob3VzaW5nIl19.JlaNCWH3iWIBe2dmgVmuQqerOy8OogvJzSs4Fm3AfhsuOQ-KaN8NJMIYTCxjyyDxZ-11kuS5mq8jmmei8olaLY-6FAiBfGUL7fsBpTPF6mguAnryUYelJD5fnMtEU-NZYTwMGrt14k9MgiHD_TSAZH7LuBzOO6b8n0fhICVfYpSQp7WmtO-QcPVb52L9UhAkmCLoH3stDHBhDwpcENKRj-HWn00KP6348mQUTgXpfyFgGmboxsePdCdGKckXqWEJuWrw9n7PnelD4CQzq0VZsx_E5pffTU-H_P3CJcAp9fAsdoBh1ZGoS4R80CO0bXd8b5IoytIbFEQbZ48B4fXQRg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f7be4bd-c189-49f9-85cf-dc158c29203b",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "aa6a81c1-d361-440d-925c-790297aa7b1a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "manager",
+			"item": [
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9732b2f-1e18-44ec-b6aa-be873a5f81e6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test hotel with contacts\",\n\t\"description\": \"test description 5\",\n\t\"locality\": \"1\",\n\t\"category\": \"1\",\n\t\"photos\": [\"https://placeimg.com/640/480/any\", \"https://placeimg.com/640/480/any\"],\n\t\"room_types\":[\n\t\t{\n\t\t\t\"name\":\"Single\",\n\t\t\t\"price\": 100\n\t\t},{\n\t\t\t\"name\": \"Double\",\n\t\t\t\"price\": 200\n\t\t}],\n\t\"contacts\":{\n\t\t\"adress\": \"street line 1\",\n\t\t\"tel_number\": \"123456\",\n\t\t\"email\": \"test@test.kg\",\n\t\t\"instagram\": \"@somehotel\",\n\t\t\"facebook\": \"http://facebook.com/somehotel\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2817866a-6e0c-470c-b793-558e367f1829",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \t\"description\": \"updated description\",\r\n        \t\"contacts\":{\r\n        \t\t\"adress\": \"updated adress\"\r\n\t               }\r\n            }"
+						},
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/housing/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddd21215-e92d-47d9-a8c3-0e58a90a66a6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzNmRjMGNlMTYwZDk4NDdhMjU1IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2Mzg0NiwiZXhwIjoxNTg0MjUwMjQ2LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsicGF0Y2g6aG91c2luZyIsInBvc3Q6aG91c2luZyIsInJlYWQ6aG91c2luZyJdfQ.TBUTZRlPyjei5qz71u21utEenlNM4uV98DaXtR69wKC_Wtvo6tEcYd7tcnCWanOc1Mqa-9zWrYlqh59_XLpFXJbNJ0Gfc_1m5M4OgMri4PV6-j4AWhtrO2Ux5kno1rGWRgEQ1iJmx2tgF9Copj2KkPt_csWlxEIYBIQYggrjrZwoxNp_sHacl_rsj4_lHF6K1h9QPjiFKLpwg5QVSnpzulQzkSMN7iRABv7hOWPCmdsAeAgwkm8i11TqXlgnM6iv8hBOCbBjxUlrai4zNfHKragL1yyzmMLbSfL2St3s-xNmu_KLORZmY06gKdOCky04sxYUIcoGqcu5La0BEEzKWw",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8c313da0-c44f-4597-9b08-6a4357e6604a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd37ca80-827a-4f6e-b3af-0f5754d4d4b2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "{{host}}/housing/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddd21215-e92d-47d9-a8c3-0e58a90a66a6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzYmFjMGNlMTYwZDk4NDdhMzI2IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2MzkyNCwiZXhwIjoxNTg0MjUwMzI0LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmhvdXNpbmciLCJwYXRjaDpob3VzaW5nIiwicG9zdDpob3VzaW5nIiwicmVhZDpob3VzaW5nIl19.PDdYPKTinPnQgcIXx2ZS5MKs943f5wCxZTkK66DEsPUK5E3bZDYBku4xsNrtaFxKV8blIy1lftyee6bRK_uOlDB3teMNX3GzDHAfG5ELDSSDkghZJf1L6OgwdrLy-RUF4EGfIWrf7flky6MfbfS6HezRmED9ybV92JcMag4pn_UX0mA2RlDDBrDDlge61S414XwibRp14539lye5TlUQhl7oPbYjefQ6G2qaYy2Na14NaWLeXTvZv7k5Wx6PsgGHiebEkboVXLRiVsdi8QQta2Mz7y1cYcl-mUamnc67qT-MgkJh6TNveCKp9_ACIrYIV7gwy4Bok3Kndfe4i147xg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0013c4e1-75f0-4ab0-af65-44ef876f974e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0453ade8-0e74-4950-af5f-863aafa79fa9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "public",
+			"item": [
+				{
+					"name": "healthy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e1b80c55-14be-481e-84dc-afefee34d2dd",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response is Healthy\", function () {",
+									"     pm.expect(pm.response.json()).to.equal(\"Healthy\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d10c2d0-667a-40e1-9ab2-49402a8d26bb",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c9732b2f-1e18-44ec-b6aa-be873a5f81e6",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "56d262fe-c5e2-4709-b039-54d79929e8c7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test hotel with contacts\",\n\t\"description\": \"test description 5\",\n\t\"locality\": \"1\",\n\t\"category\": \"1\",\n\t\"photos\": [\"https://placeimg.com/640/480/any\", \"https://placeimg.com/640/480/any\"],\n\t\"room_types\":[\n\t\t{\n\t\t\t\"name\":\"Single\",\n\t\t\t\"price\": 100\n\t\t},{\n\t\t\t\"name\": \"Double\",\n\t\t\t\"price\": 200\n\t\t}],\n\t\"contacts\":{\n\t\t\"adress\": \"street line 1\",\n\t\t\"tel_number\": \"123456\",\n\t\t\"email\": \"test@test.kg\",\n\t\t\"instagram\": \"@somehotel\",\n\t\t\"facebook\": \"http://facebook.com/somehotel\"\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{host}}/housing",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/housing",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2817866a-6e0c-470c-b793-558e367f1829",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"description\": \"updated description\"}"
+						},
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "{{host}}/housing/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddd21215-e92d-47d9-a8c3-0e58a90a66a6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/housing/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"housing",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "0d83da47-6826-4fa1-808f-7966801b49ff",
+			"key": "host",
+			"value": "https://sky-fsnd-capstone.herokuapp.com/",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

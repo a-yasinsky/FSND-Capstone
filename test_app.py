@@ -24,11 +24,14 @@ with app.app_context():
     housing_id = housing.id
     housing_for_delete_id = housing_for_delete.id
 
+auth_header_viewer = {
+    'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2YzViN2EwODQ1NzEwYzkyMjA1OTg3IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2Mzc2OSwiZXhwIjoxNTg0MjUwMTY5LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsicmVhZDpob3VzaW5nIl19.JlaNCWH3iWIBe2dmgVmuQqerOy8OogvJzSs4Fm3AfhsuOQ-KaN8NJMIYTCxjyyDxZ-11kuS5mq8jmmei8olaLY-6FAiBfGUL7fsBpTPF6mguAnryUYelJD5fnMtEU-NZYTwMGrt14k9MgiHD_TSAZH7LuBzOO6b8n0fhICVfYpSQp7WmtO-QcPVb52L9UhAkmCLoH3stDHBhDwpcENKRj-HWn00KP6348mQUTgXpfyFgGmboxsePdCdGKckXqWEJuWrw9n7PnelD4CQzq0VZsx_E5pffTU-H_P3CJcAp9fAsdoBh1ZGoS4R80CO0bXd8b5IoytIbFEQbZ48B4fXQRg"
+}
 auth_header_manager = {
-  'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzNmRjMGNlMTYwZDk4NDdhMjU1IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDA2OTgzMiwiZXhwIjoxNTg0MDc3MDMyLCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsicGF0Y2g6aG91c2luZyIsInBvc3Q6aG91c2luZyJdfQ.qePhg_mLWhZbe0u0O4i5QAkl7n1bJvfBiIbz3XfjG5anxABU2p9Hil1IRSJGNDRDRrkd0xyLqVOu1BrMrAcMEda-1SJJDUtHmiDhTt61OfWFZn0-NTBXVHUAOVHCZjX3OvraH0dZQponqvdo4tnumBC5yHabZ2M_WuaJKOfQPMcUnpi0uoUa3yPyRVVCIC5631AdLNriHmv0KW1xy6SnCp5U36qHqrd-gxBx6wJPwnLEWYQZQClCMSETjKUvm1zkPJG2h5QDPH_YipAKcqZi6ZUyp86Zb9vKSQ7Swmdh5DJZyxh3-qtd1GpzpmHjelAGyIytGXfneU6pthCs5cJFMg"
+  'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzNmRjMGNlMTYwZDk4NDdhMjU1IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2Mzg0NiwiZXhwIjoxNTg0MjUwMjQ2LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsicGF0Y2g6aG91c2luZyIsInBvc3Q6aG91c2luZyIsInJlYWQ6aG91c2luZyJdfQ.TBUTZRlPyjei5qz71u21utEenlNM4uV98DaXtR69wKC_Wtvo6tEcYd7tcnCWanOc1Mqa-9zWrYlqh59_XLpFXJbNJ0Gfc_1m5M4OgMri4PV6-j4AWhtrO2Ux5kno1rGWRgEQ1iJmx2tgF9Copj2KkPt_csWlxEIYBIQYggrjrZwoxNp_sHacl_rsj4_lHF6K1h9QPjiFKLpwg5QVSnpzulQzkSMN7iRABv7hOWPCmdsAeAgwkm8i11TqXlgnM6iv8hBOCbBjxUlrai4zNfHKragL1yyzmMLbSfL2St3s-xNmu_KLORZmY06gKdOCky04sxYUIcoGqcu5La0BEEzKWw"
 }
 auth_header_admin = {
-  'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzYmFjMGNlMTYwZDk4NDdhMzI2IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDA3MjE5MywiZXhwIjoxNTg0MDc5MzkzLCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmhvdXNpbmciLCJwYXRjaDpob3VzaW5nIiwicG9zdDpob3VzaW5nIl19.PWW59_Fk3FvVrKBiuxJjrSQt-JNua9hJCKq239nljslkJl-nZQZIIbMRzmQmYEAwMBkHqMnWwyhcDrbWrvyCP0KHcfGTmUStZNEbpmskXOctpD1nubjfVlj4nTwYHZ1FIVUijae2LsHUb-ppFx52FdjmHQiyY8l7L97aPw85vJ2CFJu1w0N0cIYBvZkuqePwMqwJr1_s-Tjg6qFtr6CugukfO_qmo2Cp7F5sLczsbLUGR_7NlueQaiJqkUQG5xsmrtOJJQSBuYJwsQVWFZ3I-qg3IWNN3cRKNyFU-hWLAlobufvSN55zOsPW4j_oieZJUGJLFxsLVWQ0e6j14OgwxA"
+  'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5EaERSVEV5TXprMlJFWkZRakUxTURZNVJVVXpRVUV3TlVNeE5UWXpOelk0TlRRNE56bEVOdyJ9.eyJpc3MiOiJodHRwczovL3NreWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2OGMzYmFjMGNlMTYwZDk4NDdhMzI2IiwiYXVkIjoiZnNuZC1jYXBzdG9uZSIsImlhdCI6MTU4NDE2MzkyNCwiZXhwIjoxNTg0MjUwMzI0LCJhenAiOiJKRjFpUFdFbjNXRWdXT201SVhEUmJ4TUtKZUJPdzM4NCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmhvdXNpbmciLCJwYXRjaDpob3VzaW5nIiwicG9zdDpob3VzaW5nIiwicmVhZDpob3VzaW5nIl19.PDdYPKTinPnQgcIXx2ZS5MKs943f5wCxZTkK66DEsPUK5E3bZDYBku4xsNrtaFxKV8blIy1lftyee6bRK_uOlDB3teMNX3GzDHAfG5ELDSSDkghZJf1L6OgwdrLy-RUF4EGfIWrf7flky6MfbfS6HezRmED9ybV92JcMag4pn_UX0mA2RlDDBrDDlge61S414XwibRp14539lye5TlUQhl7oPbYjefQ6G2qaYy2Na14NaWLeXTvZv7k5Wx6PsgGHiebEkboVXLRiVsdi8QQta2Mz7y1cYcl-mUamnc67qT-MgkJh6TNveCKp9_ACIrYIV7gwy4Bok3Kndfe4i147xg"
 }
 
 class HousingTestCase(unittest.TestCase):
@@ -56,7 +59,7 @@ class HousingTestCase(unittest.TestCase):
         self.assertEqual(data, 'Healthy')
 
     def test_get_localities(self):
-        res = self.client.get('/localities')
+        res = self.client.get('/localities', headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
@@ -64,7 +67,8 @@ class HousingTestCase(unittest.TestCase):
         self.assertTrue(data['localities'])
 
     def test_get_housing_by_locality(self):
-        res = self.client.get('/localities/1/housing')
+        res = self.client.get('/localities/1/housing',
+                            headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
@@ -117,7 +121,8 @@ class HousingTestCase(unittest.TestCase):
         self.assertTrue(len(data['housing']['room_types']))
 
     def test_get_housing_by_id(self):
-        res = self.client.get('/housing/{}'.format(housing_id))
+        res = self.client.get('/housing/{}'.format(housing_id),
+                                headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
@@ -125,13 +130,13 @@ class HousingTestCase(unittest.TestCase):
         self.assertEqual(data['housing']['id'], housing_id)
 
     def test_404_get_housing_not_exist(self):
-        res = self.client.get('/housing/1000')
+        res = self.client.get('/housing/1000', headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 404)
 
     def test_get_housing(self):
-        res = self.client.get('/housing')
+        res = self.client.get('/housing', headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
@@ -140,7 +145,8 @@ class HousingTestCase(unittest.TestCase):
         self.assertTrue(len(data['housing']))
 
     def test_search_housing(self):
-        res = self.client.get('/housing/search?q=searchval')
+        res = self.client.get('/housing/search?q=searchval',
+                                headers=auth_header_viewer)
         data = json.loads(res.data.decode('utf-8'))
 
         self.assertEqual(res.status_code, 200)
