@@ -62,6 +62,19 @@ The application is hosted on heroku under the url:
 For testing the RBAC controls, there is  an postman_collection JSON file. You can import it in your postman and find the authorization tokens. Also valid tokens included into tets_app.py for testing purposes.
 
 ## Roles description
-
+API requires authentication. There are 3 available roles:
+1. Viewer:
+  Can view housing list, housing data, search housing.
+2. Manager
+  Can do all view operations
+  Can create new housing
+  Can update housing information
+3. Administrator
+  Can do all described above operations
+  Can delete housing
 
 ## Endpoints
+### GET '/localities'
+- Fetches an array of localities
+- Request Arguments: None
+- Returns: An object with array of localities objects, total localities length.
