@@ -5,9 +5,11 @@ from flask import jsonify, abort, request
 from . import models
 from .auth.auth import AuthError, requires_auth
 
+
 @app.route('/', methods=['POST', 'GET'])
 def health():
     return jsonify("Healthy")
+
 
 @app.route('/localities', methods=['GET'])
 @requires_auth('read:housing')
@@ -20,6 +22,7 @@ def retrieve_localities(payload):
         'total_localities': len(selection)
         })
 
+
 @app.route('/localities/<int:locality_id>/housing', methods=['GET'])
 @requires_auth('read:housing')
 def retrieve_housing_by_locality(payload, locality_id):
@@ -31,6 +34,7 @@ def retrieve_housing_by_locality(payload, locality_id):
         'housing': [housing.format() for housing in locality.housing],
         'total_housing': len(locality.housing)
         })
+
 
 @app.route('/housing', methods=['GET'])
 @requires_auth('read:housing')
@@ -46,6 +50,7 @@ def retrieve_housing(payload):
         'total_housing': len(selection)
         })
 
+
 @app.route('/housing', methods=['POST'])
 @requires_auth('post:housing')
 def create_housing(payload):
@@ -60,10 +65,10 @@ def create_housing(payload):
     new_contacts = body.get('contacts', {})
     try:
         housing = models.Housing(new_name, new_description,
-                                new_locality_id, new_category_id)
+                                 new_locality_id, new_category_id)
 
         housing.insert(photos=new_photos, room_types=new_room_types,
-                        contacts=new_contacts)
+                       contacts=new_contacts)
 
         return jsonify({
             'success': True,
@@ -74,6 +79,7 @@ def create_housing(payload):
         print(sys.exc_info())
         abort(422)
 
+
 @app.route('/housing/<int:housing_id>', methods=['GET'])
 @requires_auth('read:housing')
 def retrieve_housing_info(payload, housing_id):
@@ -82,6 +88,7 @@ def retrieve_housing_info(payload, housing_id):
         'success': True,
         'housing': housing.format()
         })
+
 
 @app.route('/housing/search', methods=['GET'])
 @requires_auth('read:housing')
@@ -95,6 +102,7 @@ def search_housing(payload):
         'housing': housing,
         'total_housing': len(selection)
         })
+
 
 @app.route('/housing/<int:housing_id>', methods=['PATCH'])
 @requires_auth('patch:housing')
@@ -114,7 +122,7 @@ def update_housing(payload, housing_id):
             housing.name = new_name
 
         housing.update(photos=new_photos, room_types=new_room_types,
-                        contacts=new_contacts)
+                       contacts=new_contacts)
 
         return jsonify({
             'success': True,
@@ -124,6 +132,7 @@ def update_housing(payload, housing_id):
     except:
         print(sys.exc_info())
         abort(422)
+
 
 @app.route('/housing/<int:housing_id>', methods=['DELETE'])
 @requires_auth('delete:housing')
@@ -140,6 +149,7 @@ def delete_housing(payload, housing_id):
         print(sys.exc_info())
         abort(422)
 
+
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({
@@ -147,6 +157,7 @@ def not_found(error):
                     "erorr": 404,
                     "message": "resource not found"
                     }), 404
+
 
 @app.errorhandler(422)
 def unprocessable(error):
@@ -156,6 +167,7 @@ def unprocessable(error):
                     "message": "unprocessable entity"
                     }), 422
 
+
 @app.errorhandler(400)
 def bad_request(error):
     return jsonify({
@@ -164,6 +176,7 @@ def bad_request(error):
                     "message": "bad request"
                     }), 400
 
+
 @app.errorhandler(500)
 def internal_error(error):
     return jsonify({
@@ -171,6 +184,7 @@ def internal_error(error):
                     "erorr": 500,
                     "message": "internal server error"
                     }), 500
+
 
 @app.errorhandler(AuthError)
 def handle_auth_error(ex):
