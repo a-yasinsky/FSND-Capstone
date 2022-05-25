@@ -1,4 +1,4 @@
-PyJWT==1.7.1
+PyJWT==2.4.0
 Gunicorn==20.0.4
 Flask==1.1.1
 Flask-Cors==3.0.8
